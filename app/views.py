@@ -3,7 +3,6 @@ from flask import render_template, redirect, url_for
 
 @app.route('/')
 @app.route('/index')
-
 def index():
     user = {'username': 'miguel'}
     posts = [
@@ -21,3 +20,7 @@ def index():
         }
     ]
     return render_template('index.html', user = user, title = 'Home', posts = posts)
+
+@app.route('/page')
+def page():
+    return render_template('page.html')
