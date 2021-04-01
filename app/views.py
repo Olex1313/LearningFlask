@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, flash, url_for
 from app.forms import LoginForm
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -14,17 +15,19 @@ def index():
         {
             'author': {'username': 'Susan'},
             'body': 'The Avengers movie was so cool!'
-        }, 
+        },
         {
             'author': {'username': 'Ипполит'},
             'body': 'Какая гадость эта ваша заливная рыба!!'
         }
     ]
-    return render_template('index.html', user = user, title = 'Home', posts = posts)
+    return render_template('index.html', user=user, title='Home', posts=posts)
+
 
 @app.route('/page')
 def page():
     return render_template('page.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
