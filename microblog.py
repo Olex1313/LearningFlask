@@ -7,4 +7,5 @@ def make_shell_context():
     return {'db': db, 'User': User, 'Post': Post}
 
 
-app.run()
+if __name__ == "__main__":
+    app.run()
