@@ -84,7 +84,7 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(
-        1, app.config['POSTS_PER_PROFILE'], False) #incorrect querry
+        1, app.config['POSTS_PER_PROFILE'], False)
     if posts.has_next:
         next_url = url_for('explore', page=posts.next_num)
     else:
