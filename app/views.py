@@ -1,11 +1,11 @@
-from app import app, db
-from flask import render_template, redirect, flash, url_for
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
-from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post
-from werkzeug.urls import url_parse
-from flask import request
 from datetime import datetime
+from flask import render_template, flash, redirect, url_for, request
+from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.urls import url_parse
+from app import app, db
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
+    EmptyForm, PostForm
+from app.models import User, Post
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,10 +38,6 @@ def index():
         form=form,
         next_url=next_url,
         prev_url=prev_url)
-
-@app.route('/page')
-def page():
-    return render_template('page.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -82,6 +78,7 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username):
+    form = EmptyForm()
     user = User.query.filter_by(username=username).first_or_404()
     posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(
         1, app.config['POSTS_PER_PROFILE'], False)
@@ -94,7 +91,7 @@ def user(username):
     else:
         prev_url = None
     
-    return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url)
+    return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url, form=form)
 
 @app.before_request
 def before_request():
