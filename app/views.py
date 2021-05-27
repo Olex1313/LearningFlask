@@ -75,7 +75,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods=['GET', 'POST'])
 @login_required
 def user(username):
     form = EmptyForm()
@@ -114,7 +114,7 @@ def edit_profile():
         form.about_me.data = current_user.about_me
         return render_template('edit_profile.html', title='Edit Profile', form=form)
 
-@app.route('/follow/<username>')
+@app.route('/follow/<username>', methods=['GET', 'POST'])
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
@@ -129,7 +129,7 @@ def follow(username):
     flash(f'You are following {username}!')
     return redirect(url_for('user', username=username))
 
-@app.route('/unfollow,<username>')
+@app.route('/unfollow,<username>', methods=['GET', 'POST'])
 @login_required
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
